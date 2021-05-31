@@ -65,7 +65,7 @@ public class EditOrder implements RequestHandler<APIGatewayProxyRequestEvent, AP
 			if (locusResponse.getStatusCode().value() == (HttpStatus.OK.value())) {
 				LOGGER.info("locusResponse.getStatusCode().value()" + locusResponse.getStatusCode().value() + "\t"
 						+ (HttpStatus.OK.value()));
-				response = buildLocusCreateOrderResponse(locusResponse, Constant.SUCCESS);
+				response = buildLocusEditOrderResponse(locusResponse, Constant.SUCCESS);
 			} else {
 				boolean successFlag = false;
 				for (int count = 2; count < Constant.ORDER_CANCEL_COUNT; count++) {
@@ -77,12 +77,12 @@ public class EditOrder implements RequestHandler<APIGatewayProxyRequestEvent, AP
 					LOGGER.info("Success Flag::" + successFlag);
 
 					if (successFlag == true) {
-						response = buildLocusCreateOrderResponse(locusResponse, Constant.SUCCESS);
+						response = buildLocusEditOrderResponse(locusResponse, Constant.SUCCESS);
 						break;
 					} else {
 						if (count == 3) {
 							LOGGER.info("Going to build Final Response after hitting three times:");
-							response = buildLocusCreateOrderResponse(locusResponse, Constant.FAILURE);
+							response = buildLocusEditOrderResponse(locusResponse, Constant.FAILURE);
 							break;
 						}
 					}
@@ -97,7 +97,7 @@ public class EditOrder implements RequestHandler<APIGatewayProxyRequestEvent, AP
 		return response;
 	}
 
-	private APIGatewayProxyResponseEvent buildLocusCreateOrderResponse(ResponseEntity<String> locusResponse,
+	private APIGatewayProxyResponseEvent buildLocusEditOrderResponse(ResponseEntity<String> locusResponse,
 			String status) {
 		APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
 		JSONObject locusAPIResponseJsonObj = null;

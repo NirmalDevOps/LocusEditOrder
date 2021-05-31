@@ -1,0 +1,32 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Description: LocusEditOrder
+
+Globals:
+  Function:
+    Runtime: java8
+    MemorySize: 512
+    Timeout: 25
+  Api:
+    OpenApiVersion: '3.0.1'
+    Cors:
+      AllowMethods: "'POST,OPTIONS'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+      AllowOrigin: "'*'"
+      MaxAge: "'600'"
+      AllowCredentials: False
+
+Resources:
+  Orderhive:
+    Type: AWS::Serverless::SimpleTable
+  LocusEditOrder:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: target/locusEditOrder.zip
+      Handler: com.htc.locuseditorder.main.LocusEditOrder::handleRequest
+      Events:
+        ApiEvents:
+          Type: Api
+          Properties:
+            Path: /orderhivelocus/order/edit
+            Method: POST

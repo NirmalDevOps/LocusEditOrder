@@ -146,13 +146,21 @@ public class OrderHiveLocusRequestConverterImpl {
 		if (order_items.size() > 0) {
 			for (OrderItems orderItems : order_items) {
 				if (orderItems.getVolume() != null) {
+					Volume volume=new Volume();
 					volume.setValue(orderItems.getVolume().toString());
 					volume.setUnit(Constant.VOLUME_UNIT);
 					patchBody.setVolume(volume);
 					break;
-				} else {
+				} else if(orderItems.getVolume() != null){
 					Weight weight = new Weight();
 					weight.setValue((orderItems.getWeight().toString()));
+					weight.setUnit(Constant.WEIGHT_UNIT);
+					patchBody.setWeight(weight);
+					break;
+				}
+				else {
+					Weight weight = new Weight();
+					weight.setValue("0");
 					weight.setUnit(Constant.WEIGHT_UNIT);
 					patchBody.setWeight(weight);
 					break;
